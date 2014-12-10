@@ -1,0 +1,17 @@
+h1 {
+  color: blue;
+}
+p {
+  font-weight: bold;
+}
+body {
+  text-align: center;
+}
+img {
+  width: 100px;
+  height: 100px;
+}
+ul {
+  list-style-type: none;
+  padding: 10px;
+}
