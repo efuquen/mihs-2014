@@ -9,7 +9,57 @@
     <h3 id="greeting"></h3>
     <canvas id="canvas"></canvas>
     <script>
-      var name = prompt("What is your name?");
+      start();
+      turnLeft();
+      move(1);
+      wait(1);
+      draw();
+      var i = 0;
+      while(i < 4) {
+        color('#0ff');
+        turnRight();
+        move(1);
+        wait(1);
+        draw();
+        i++;
+      }
+      move(2);
+      wait(1);
+      draw();
+      var i = 0;
+      while(i < 4) {
+        color('blue');
+        turnRight();
+        move(1);
+        wait(1);
+        draw();
+        i++;
+      }
+      move(2);
+      wait(1);
+      draw();
+      var i = 0;
+      while(i < 4) {
+        color('green');
+        turnRight();
+        move(1);
+        wait(1);
+        draw();
+        i++;
+      }
+       move(2);
+      wait(1);
+      draw();
+      var i = 0;
+      while(i < 4) {
+        color('yellow');
+        turnRight();
+        move(1);
+        wait(1);
+        draw();
+        i++;
+      }
+      /*var name = prompt("What is your name?");
       start("Have fun playing " + name + "!");
       var degrees = prompt("How many degrees should I turn?");
       var steps = prompt("How many moves should I make?");
@@ -29,10 +79,11 @@
       while(i < 100) {
         turn(90);
         move(1);
+        color('green');
         wait(0.25);
         draw();
         i++;
-      }
+      }*/
     </script>
   </body>
 </html>

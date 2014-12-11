@@ -13,34 +13,64 @@ var sprite = {
   //src: 'http://i.imgur.com/JRtNr5p.png'
   src: 'http://dv00f9dtk4nbg.cloudfront.net/mihs/2014/public/img/space-invader.png'
 };
+var board = {
+  color: "#000",
+  sizeX: 8,
+  sizeY: 6,
+  values: []
+};
 var img;
 var stage = 0;
 var TO_RADIANS = Math.PI/180;
 var running = false;
 
+function initBoard() {
+  var x = 0;
+  while(x < board.sizeX) {
+    board.values.push([]);
+    var y = 0;
+    while(y < board.sizeY) {
+      board.values[x].push({color: board.color});
+      y++;
+    }
+    x++;
+  }
+}
+
 function drawBoard() {
-  ctx.fillStyle = '#000';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  var x = 0;
+  while(x < board.sizeX) {
+    var y = 0;
+    while(y < board.sizeY) {
+      colorSquare(x * sprite.width, y * sprite.height, board.values[x][y].color);
+      y++;
+    }
+    x++;
+  }
   verticalLines([100, 200, 300, 400, 500, 600, 700], 2);
   horizontalLines([100, 200, 300, 400, 500], 2);
-  colorSquare(400, 400, '#c00'); //red
-  colorSquare(100, 200, '#0c0'); //blue
-  colorSquare(700, 0, '#00c'); //green
- 
 }
 
-function colorSquare(x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, 100, 100);
-}
-
-function render() {
-  drawBoard();
+function drawSprite() {
   ctx.save();
   ctx.translate(sprite.x + img.width/2, sprite.y + img.height/2);
   ctx.rotate(sprite.rotate * TO_RADIANS);
   ctx.drawImage(img, -(img.width/2), -(img.height/2));
   ctx.restore();
+}
+
+function currentSquare() {
+  return board.values[sprite.x / sprite.width][sprite.y / sprite.height];
+}
+
+function colorSquare(x, y, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, sprite.width, sprite.height);
+}
+
+function render() {
+  drawBoard();
+  drawSprite();
 }
 
 function verticalLines(xs, width) {
@@ -120,16 +150,21 @@ function doMoves(moves) {
       setTimeout(doMoves, move.wait * 1000, moves);
     } else if(move.color) {
       if(move.color === 'blue'){
-        colorSquare(sprite.x, sprite.y, '#0c0');
+         currentSquare().color = '#0f0';
       } else if(move.color === 'green') {
-        colorSquare(sprite.x, sprite.y, '#00c');
+        currentSquare().color = '#00f';
       } else if(move.color === 'red') {
-        colorSquare(sprite.x, sprite.y, '#c00');
+        currentSquare().color = '#f00';
       } else if(move.color === 'black') {
-        colorSquare(sprite.x, sprite.y, '#000');
+        currentSquare().color = '#000';
+      } else if(move.color === 'yellow') {
+        currentSquare().color = '#ff0';
+      } else if(move.color === 'purple') {
+        currentSquare().color = '#f0f';
       } else {
-        colorSquare(sprite.x, sprite.y, move.color);
+        currentSquare().color = move.color;
       }
+      setTimeout(doMoves, move.wait * 1000, moves);
     } else {
       doMove(move);
       render();
@@ -160,8 +195,20 @@ function turn(degrees) {
     rotate(degrees);
 }
 
-function color(cname) {
-    moves.push({color: cname});
+function turnRight() {
+  turn(90);
+}
+
+function turnLeft() {
+  turn(270);
+}
+
+function turnAround() {
+  turn(180);
+}
+
+function color(c) {
+    moves.push({color: c});
 }
 
 function done() {
@@ -183,6 +230,7 @@ function start(greeting) {
   canvas.width = 800;
   canvas.height = 600;
   ctx = canvas.getContext('2d');
+  initBoard();
   img = new Image();
   img.onload = function() {
     render();
