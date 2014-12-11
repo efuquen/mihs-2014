@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Space Invaders</title>
+    <!--<script src="https://s3.amazonaws.com/parascal-scripted/mihs/2014/public/js/engine.js"></script>-->
+    <!--<script src="http://dv00f9dtk4nbg.cloudfront.net/mihs/2014/public/js/engine.js"></script>-->
+    <script src="js/engine.js"></script>
+  </head>
+  <body>
+    <h3 id="greeting"></h3>
+    <canvas id="canvas"></canvas>
+    <script>
+      var name = prompt("What is your name?");
+      start("Have fun playing " + name + "!");
+      var degrees = prompt("How many degrees should I turn?");
+      var steps = prompt("How many moves should I make?");
+      var seconds = prompt("How many seconds should I wait?");
+      turn(degrees);
+      wait(seconds);
+      move(steps);
+      color('red');
+      wait(seconds);
+      draw();
+      turn(270);
+      move(2);
+      color('red');
+      wait(1);
+      draw();
+      var i = 0;
+      while(i < 100) {
+        turn(90);
+        move(1);
+        wait(0.25);
+        draw();
+        i++;
+      }
+    </script>
+  </body>
+</html>
